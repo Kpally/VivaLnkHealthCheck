@@ -1,4 +1,4 @@
-# Health Check (iOS version)
+# Health Check
 
 
-This is an app that will test the health of VivaLnk's services
+Contains Java program for checking health of VivaLnk services as well as design for iOS app.
