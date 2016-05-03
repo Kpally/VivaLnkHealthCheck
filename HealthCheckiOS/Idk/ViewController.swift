@@ -669,7 +669,7 @@ class ViewController: UIViewController {
             self.signInBox.backgroundColor = self.fail;
             self.testAllButton.setTitle("Clear", forState: .Normal)
             self.flip = true;
-        }                
+        }
             }
     
     
