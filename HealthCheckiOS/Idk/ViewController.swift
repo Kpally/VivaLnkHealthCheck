@@ -47,21 +47,13 @@ class ViewController: UIViewController {
     static var apnsSucceed = false
     static var dataUpSucceed = false
    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsButton.layer.cornerRadius = 5;
         testAllButton.layer.cornerRadius = 5;
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
-        
     }
-    
-    
-    
+
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Portrait
     }
@@ -71,10 +63,32 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func delay(delay: Double, closure: ()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(),
+            closure
+        )
+    }
+    
+    static func delay(delay: Double, closure: ()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(),
+            closure
+        )
+    }
+
+    
     static func signIn() -> Bool
     {
         var ifSuccess = 0;
-
         
         if let url = NSURL(string: baseURL)
         {
@@ -89,8 +103,6 @@ class ViewController: UIViewController {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
                     }
-                    
-                    
 
                     if (ifSuccess == 200) {
                         
@@ -98,14 +110,10 @@ class ViewController: UIViewController {
                         token = myToken
                         signInsucceed = true
                         
-                        
-                        
-                        
                     } else {
                         signInsucceed = false
                      
                     }
-                    
             }
         }
 
@@ -141,6 +149,14 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func signIn(sender: UIButton) {
+        ViewController.signIn()
+        delay(2.0)
+        {
+            self.signInSuccess();
+        }
+    }
+    
     static func restCheck() -> Bool
     {
         
@@ -157,7 +173,7 @@ class ViewController: UIViewController {
                     let statusCode = httpError.code
                     ifSuccess = statusCode;
                     print (statusCode);
-                } else { //no errors
+                } else {
                     let statusCode = (response.response?.statusCode)!
                     print (statusCode);
                     ifSuccess = statusCode;
@@ -167,30 +183,16 @@ class ViewController: UIViewController {
                 {
                     restSucceed = true;
                 }
-                    
                 else{
-                    
-                    
-//                    self.vivaLnkREST.backgroundColor = self.fail;
-//                    self.awsEC2.backgroundColor = self.fail;
-//                    self.vivaLnkWebApp.backgroundColor = self.fail;
-//                    self.dnsCloudFlare.backgroundColor = self.fail;
-//                    self.httpClient.backgroundColor = self.fail;
-//                    self.testAllButton.setTitle("Clear", forState: .Normal)
-//                    self.flip = true;
                     restSucceed = false;
                 }
-                
         }
-         //print (token);
         return restSucceed
     }
     
     static func redisCheck() -> Bool
     {
-        //print (token)
         var ifSuccess = 0;
-        
         
         if let url = NSURL(string: baseURL)
         {
@@ -199,9 +201,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-           // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/redis", headers: headers)
@@ -209,50 +208,25 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-//                        print (statusCode)
-//                        print ("hello")
-//                        print(token)
-              
                     }
-                    
-                    
-                    
+
                     if (ifSuccess == 200) {
-                        
-
-
-                        //print ("yay")
                         redisSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
-                    } else {
-                        
-//                        print ("nah")
-//                        print (ifSuccess)
-                        redisSucceed = false;
-                       // print (redisSucceed)
                     }
-                    
+                    else {
+                        redisSucceed = false;
+                    }
             }
         }
-        
-       // print (redisSucceed)
-        print ("This should be first " + String (redisSucceed))
         return redisSucceed
-        
     }
+    
     
     func redisSuccess()
     {
-        
-        
         if ViewController.redisCheck() == true
         {
             self.redisCache.backgroundColor = self.success;
@@ -263,36 +237,18 @@ class ViewController: UIViewController {
             self.httpClient.backgroundColor = self.success;
             self.testAllButton.setTitle("Clear", forState: .Normal)
             self.flip = true;
-            
-            
         }
-            
         else{
             self.redisCache.backgroundColor = self.fail;
             self.testAllButton.setTitle("Clear", forState: .Normal)
             print(ViewController.redisCheck())
             self.flip = true;
-    }
-        
-    }
-    
-    
-    @IBAction func signIn(sender: UIButton) {
-        
-
-        ViewController.signIn()
-        delay(2.0)
-        {
-            self.signInSuccess();
         }
     }
     
+
     static func rdsCheck() -> Bool{
-        
-        
-        //print (token)
         var ifSuccess = 0;
-        
         
         if let url = NSURL(string: baseURL)
         {
@@ -301,9 +257,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/rds", headers: headers)
@@ -311,42 +264,18 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
-                    
-                    
-                    
+
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        //print ("yay")
                         rdsSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                        //                        print ("nah")
-                        //                        print (ifSuccess)
                         rdsSucceed = false;
-                        // print (redisSucceed)
                     }
-                    
             }
         }
-        
-        // print (redisSucceed)
-        
         return rdsSucceed
     }
     
@@ -393,47 +322,18 @@ class ViewController: UIViewController {
         {
             self.redisSuccess()
         }
-        
-
     }
     
 
- 
-     func delay(delay: Double, closure: ()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(),
-            closure
-        )
-    }
-    
-    static func delay(delay: Double, closure: ()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(),
-            closure
-        )
-    }
-    
     
     @IBAction func restCheck(sender: UIButton) {
         ViewController.signIn()
-//        let userDefaults = NSUserDefaults.standardUserDefaults()
-//        print(userDefaults .objectForKey("token"))
         
         delay(2.0)
         {
                ViewController.restCheck();
         }
-     
-        
-     
+
     }
     
     static func apnsCheck() -> Bool
@@ -448,9 +348,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             let parameters = ["accountId": "152", "deviceToken": "212121", "message": "Notification Triggered"]
             
@@ -459,42 +356,18 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
-                    
-                    
-                    
+
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        //print ("yay")
                         apnsSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                        //                        print ("nah")
-                        //                        print (ifSuccess)
                         apnsSucceed = false;
-                        // print (redisSucceed)
                     }
-                    
             }
         }
-        
-        // print (redisSucceed)
-        print ("This should be first " + String (redisSucceed))
         
         return apnsSucceed
     }
@@ -547,9 +420,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/awsSNS?email="+email+"&message=NotificationForMe", headers: headers)
@@ -557,42 +427,18 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
                     
-                    
-                    
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        //print ("yay")
                         snsSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                        //                        print ("nah")
-                        //                        print (ifSuccess)
                         snsSucceed = false;
-                        // print (redisSucceed)
                         }
-                    
             }
         }
-        
-
-        
         return snsSucceed
     }
     
@@ -635,10 +481,8 @@ class ViewController: UIViewController {
     
     static func snspCheck() -> Bool
     {
-        //print (token)
         var ifSuccess = 0;
-        
-        
+
         if let url = NSURL(string: baseURL)
         {
             let URLRequest = NSMutableURLRequest(URL: url)
@@ -646,9 +490,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/snsProcessor", headers: headers)
@@ -656,43 +497,22 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
-                    
-                    
-                    
+
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        print ("yay")
                         snspSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                                                print ("nah")
-                        //                        print (ifSuccess)
                         snspSucceed = false;
-                        // print (redisSucceed)
                     }
-                    
             }
         }
-
         
         return snspSucceed
     }
+    
     
     func snspSuccess()
     {
@@ -730,10 +550,7 @@ class ViewController: UIViewController {
     }
     
     static func sqsCheck() -> Bool{
-     
-        //print (token)
         var ifSuccess = 0;
-        
         
         if let url = NSURL(string: baseURL)
         {
@@ -742,9 +559,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = [ "Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/temperatureSQS", headers: headers)
@@ -752,42 +566,18 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
-                    
-                    
                     
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        print ("yay")
                         sqsSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                        //                        print ("nah")
-                        //                        print (ifSuccess)
                         sqsSucceed = false;
-                        // print (redisSucceed)
                     }
-                    
             }
         }
-        
-        // print (redisSucceed)
-        
         return sqsSucceed
     }
     
@@ -825,9 +615,7 @@ class ViewController: UIViewController {
     }
     
     static func dataUploadCheck() -> Bool
-    {
-        var ifSuccess = 0;
-        
+    {   var ifSuccess = 0;
         
         if let url = NSURL(string: baseURL)
         {
@@ -836,9 +624,6 @@ class ViewController: UIViewController {
             URLRequest.setValue("Authorization", forHTTPHeaderField: token)
             URLRequest.setValue("email", forHTTPHeaderField: email)
             URLRequest.setValue("password", forHTTPHeaderField: password)
-            
-            
-            // Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": token]
             let headers = ["Authorization" : token, "email": email, "password": password]
             
             Alamofire.request(.GET, baseURL+"/api/healthcheck/temperatureProcessor", headers: headers)
@@ -847,53 +632,24 @@ class ViewController: UIViewController {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
                         debugPrint(response)
-                        
-                    } else { //no errors
+                    } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
                         debugPrint(response)
-                        //                        print (statusCode)
-                        //                        print ("hello")
-                        //                        print(token)
-                        
                     }
-                    
-                    
-                    
+
                     if (ifSuccess == 200) {
-                        
-                        
-                        
-                        //print ("yay")
                         dataUpSucceed = true;
-                        //print (redisSucceed)
-                        
-                        
-                        
-                        
                     } else {
-                        
-                        //                        print ("nah")
-                        //                        print (ifSuccess)
                         dataUpSucceed = false;
-                        // print (redisSucceed)
                     }
-                    
             }
         }
-        
-        // print (redisSucceed)
-        
-
-        
-        
         return dataUpSucceed
     }
     
     func dataUpSuccess()
     {
-       
-       
         if(ViewController.dataUploadCheck())
         {
             self.signInBox.backgroundColor = self.success;
@@ -909,15 +665,11 @@ class ViewController: UIViewController {
             self.testAllButton.setTitle("Clear", forState: .Normal)
             self.flip = true;
         }
-            
         else{
             self.signInBox.backgroundColor = self.fail;
             self.testAllButton.setTitle("Clear", forState: .Normal)
             self.flip = true;
-        }
-
-        
-        
+        }                
             }
     
     
