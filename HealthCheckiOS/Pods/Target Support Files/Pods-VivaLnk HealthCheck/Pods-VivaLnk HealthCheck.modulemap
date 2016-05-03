@@ -1,0 +1,6 @@
+framework module Pods_VivaLnk_HealthCheck {
+  umbrella header "Pods-VivaLnk HealthCheck-umbrella.h"
+
+  export *
+  module * { export * }
+}
