@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Idk/ViewController.swift"
-            timestampString = "484005154.292718"
+            filePath = "Idk/SettingsController.swift"
+            timestampString = "484617884.470763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
-            landmarkName = "restCheck(_:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "saveEmail(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Idk/ViewController.swift"
-            timestampString = "484003836.422845"
+            filePath = "Idk/SettingsController.swift"
+            timestampString = "484617884.470763"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "signInSuccess()"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "mainButton(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

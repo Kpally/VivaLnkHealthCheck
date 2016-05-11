@@ -12,6 +12,7 @@ import Alamofire
 
 class ViewController: UIViewController {
 
+
     @IBOutlet weak var signInBox: UILabel!
     @IBOutlet weak var aWSRDS: UILabel!
     @IBOutlet weak var rESTAPI: UILabel!
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var awsSQS: UILabel!
     @IBOutlet weak var rightSideRESTapi: UILabel!
     @IBOutlet weak var dataUploadProcessor: UILabel!
+    @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var testAllButton: UIButton!
     @IBOutlet weak var resultsButton: UIButton!
     let neutral = UIColor(red: 204/255, green: 255/255, blue: 255/255, alpha: 1);
@@ -34,9 +36,9 @@ class ViewController: UIViewController {
     let fail = UIColor(red: 255/255, green: 71/255, blue: 26/255, alpha: 1);
     var flip = false;
     static var token = "no"
-    static let baseURL = "http://vivalnkwebtest-env.us-west-1.elasticbeanstalk.com";
-    static let email = "breakfastturkey@gmail.com";
-    static let password = "234567";
+    static var baseURL = "http://vivalnkwebtest-env.us-west-1.elasticbeanstalk.com"
+    static var email = NSUserDefaults.standardUserDefaults().stringForKey("email")!
+    static var password = NSUserDefaults.standardUserDefaults().stringForKey("password")!
     static var signInsucceed = false
     static var redisSucceed = false
     static var restSucceed = false
@@ -46,12 +48,14 @@ class ViewController: UIViewController {
     static var snsSucceed = false
     static var apnsSucceed = false
     static var dataUpSucceed = false
-   
 
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsButton.layer.cornerRadius = 5;
         testAllButton.layer.cornerRadius = 5;
+        settingsButton.layer.cornerRadius = 5;
+        
+        
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -60,6 +64,7 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
         // Dispose of any resources that can be recreated.
     }
     
@@ -84,10 +89,26 @@ class ViewController: UIViewController {
             closure
         )
     }
+    
+    static func checkSite()
+    {
+        if NSUserDefaults.standardUserDefaults().stringForKey("site") != nil
+        {
+            baseURL = NSUserDefaults.standardUserDefaults().stringForKey("site")!
+        }
+            
+        else
+        {
+            baseURL = "http://vivalnkwebtest-env.us-west-1.elasticbeanstalk.com/"
+        }
+    }
 
     
     static func signIn() -> Bool
     {
+        
+        checkSite()
+        
         var ifSuccess = 0;
         
         if let url = NSURL(string: baseURL)
@@ -116,8 +137,8 @@ class ViewController: UIViewController {
                     }
             }
         }
-
         return signInsucceed
+
     }
     
     func signInSuccess()
@@ -159,11 +180,7 @@ class ViewController: UIViewController {
     
     static func restCheck() -> Bool
     {
-        
-        if (token == "no")
-        {
-            print ("not ready")
-        }
+        checkSite()
         
         var ifSuccess = 0;
         
@@ -172,10 +189,8 @@ class ViewController: UIViewController {
                 if let httpError = response.result.error {
                     let statusCode = httpError.code
                     ifSuccess = statusCode;
-                    print (statusCode);
                 } else {
                     let statusCode = (response.response?.statusCode)!
-                    print (statusCode);
                     ifSuccess = statusCode;
                 }
                 
@@ -190,9 +205,32 @@ class ViewController: UIViewController {
         return restSucceed
     }
     
+    func restSuccess()
+    {
+        if ViewController.restCheck() == true
+        {
+            self.vivaLnkREST.backgroundColor = self.success;
+            self.awsEC2.backgroundColor = self.success;
+            self.vivaLnkWebApp.backgroundColor = self.success;
+            self.dnsCloudFlare.backgroundColor = self.success;
+            self.httpClient.backgroundColor = self.success;
+            self.testAllButton.setTitle("Clear", forState: .Normal)
+            self.flip = true;
+        }
+        else{
+            self.vivaLnkREST.backgroundColor = self.fail;
+            self.testAllButton.setTitle("Clear", forState: .Normal)
+            self.flip = true;
+        }
+    }
+    
     static func redisCheck() -> Bool
     {
+        
+        
         var ifSuccess = 0;
+        checkSite()
+        
         
         if let url = NSURL(string: baseURL)
         {
@@ -241,7 +279,6 @@ class ViewController: UIViewController {
         else{
             self.redisCache.backgroundColor = self.fail;
             self.testAllButton.setTitle("Clear", forState: .Normal)
-            print(ViewController.redisCheck())
             self.flip = true;
         }
     }
@@ -249,6 +286,7 @@ class ViewController: UIViewController {
 
     static func rdsCheck() -> Bool{
         var ifSuccess = 0;
+        checkSite()
         
         if let url = NSURL(string: baseURL)
         {
@@ -328,10 +366,11 @@ class ViewController: UIViewController {
     
     @IBAction func restCheck(sender: UIButton) {
         ViewController.signIn()
+        ViewController.restCheck()
         
         delay(2.0)
         {
-               ViewController.restCheck();
+               self.restSuccess()
         }
 
     }
@@ -339,6 +378,7 @@ class ViewController: UIViewController {
     static func apnsCheck() -> Bool
     {
         var ifSuccess = 0;
+        checkSite()
         
         
         if let url = NSURL(string: baseURL)
@@ -411,6 +451,7 @@ class ViewController: UIViewController {
     static func snsCheck() -> Bool
     {
         var ifSuccess = 0;
+        checkSite()
         
         
         if let url = NSURL(string: baseURL)
@@ -482,6 +523,7 @@ class ViewController: UIViewController {
     static func snspCheck() -> Bool
     {
         var ifSuccess = 0;
+        checkSite()
 
         if let url = NSURL(string: baseURL)
         {
@@ -551,6 +593,7 @@ class ViewController: UIViewController {
     
     static func sqsCheck() -> Bool{
         var ifSuccess = 0;
+        checkSite()
         
         if let url = NSURL(string: baseURL)
         {
@@ -616,6 +659,7 @@ class ViewController: UIViewController {
     
     static func dataUploadCheck() -> Bool
     {   var ifSuccess = 0;
+        checkSite()
         
         if let url = NSURL(string: baseURL)
         {
@@ -631,11 +675,9 @@ class ViewController: UIViewController {
                     if let httpError = response.result.error {
                         let statusCode = httpError.code
                         ifSuccess = statusCode;
-                        debugPrint(response)
                     } else {
                         let statusCode = (response.response?.statusCode)!
                         ifSuccess = statusCode;
-                        debugPrint(response)
                     }
 
                     if (ifSuccess == 200) {

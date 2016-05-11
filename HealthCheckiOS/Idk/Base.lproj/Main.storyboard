@@ -5,6 +5,91 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
+        <!--Settings Controller-->
+        <scene sceneID="iul-RM-9mC">
+            <objects>
+                <viewController id="qGf-5j-0OB" customClass="SettingsController" customModule="VivaLnk_HealthCheck" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9W7-bb-o3q"/>
+                        <viewControllerLayoutGuide type="bottom" id="jDJ-mu-R7E"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="h7v-qR-c81">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter email and password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIl-Yg-CgK">
+                                <rect key="frame" x="89" y="105" width="197" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LXS-sN-Fw2">
+                                <rect key="frame" x="161" y="390" width="53" height="30"/>
+                                <color key="backgroundColor" red="0.23347293180000001" green="0.29341868459999998" blue="0.29341868459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="7lX-Ha-nqu"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XEg-kj-KSL">
+                                <rect key="frame" x="84" y="173" width="207" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="saveEmail:" destination="qGf-5j-0OB" eventType="editingDidEnd" id="zxK-9t-Kyk"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bMw-f6-rN8">
+                                <rect key="frame" x="84" y="240" width="207" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="savePass:" destination="qGf-5j-0OB" eventType="editingDidEnd" id="6Nv-eB-Hcw"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6p-wL-jMp">
+                                <rect key="frame" x="80" y="319" width="93" height="30"/>
+                                <color key="backgroundColor" red="0.93377514699999997" green="0.94921875" blue="0.90441174359999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Main Site">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mainButton:" destination="qGf-5j-0OB" eventType="touchUpInside" id="Ono-mt-afr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WrN-FA-gGM">
+                                <rect key="frame" x="201" y="318" width="90" height="30"/>
+                                <color key="backgroundColor" red="0.93377514699999997" green="0.94921875" blue="0.90441174359999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Test Site">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="testButton:" destination="qGf-5j-0OB" eventType="touchUpInside" id="Md1-Q7-UzS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You are testing the test site" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kO6-xH-OIV">
+                                <rect key="frame" x="60" y="460" width="255" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="backButton" destination="LXS-sN-Fw2" id="hzT-LL-aFl"/>
+                        <outlet property="passwordField" destination="bMw-f6-rN8" id="HgS-dF-GUk"/>
+                        <outlet property="testlabel" destination="kO6-xH-OIV" id="fUu-C4-5eE"/>
+                        <outlet property="textField" destination="XEg-kj-KSL" id="Jgs-FV-wxw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sLK-A1-IHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-452.5" y="139.5"/>
+        </scene>
         <!--Home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -321,6 +406,16 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Arrow_Up_Left" translatesAutoresizingMaskIntoConstraints="NO" id="w0k-rm-BgF">
                                 <rect key="frame" x="112" y="150" width="20" height="17"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t05-Oa-LtA">
+                                <rect key="frame" x="24" y="34" width="68" height="30"/>
+                                <color key="backgroundColor" red="0.93377514699999997" green="0.94921875" blue="0.90441174359999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Settings">
+                                    <color key="titleColor" red="0.23347293180000001" green="0.29341868459999998" blue="0.29341868459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="qGf-5j-0OB" kind="show" id="PRg-6c-LDG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -339,6 +434,7 @@
                         <outlet property="redisCache" destination="ibN-yu-sry" id="uqa-46-lm1"/>
                         <outlet property="resultsButton" destination="rCK-PL-AqY" id="5ad-J2-LfY"/>
                         <outlet property="rightSideRESTapi" destination="l8w-m0-XbJ" id="sDu-SW-j4b"/>
+                        <outlet property="settingsButton" destination="t05-Oa-LtA" id="AuF-hK-Djr"/>
                         <outlet property="signInBox" destination="HIl-r7-eCd" id="HAe-1y-Ofo"/>
                         <outlet property="snsProcessor" destination="qGX-Tj-YrB" id="HhD-w0-sFk"/>
                         <outlet property="testAllButton" destination="UR9-2h-mAL" id="uct-Jm-jst"/>
@@ -348,7 +444,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1.5" y="146.5"/>
+            <point key="canvasLocation" x="-9.5" y="146.5"/>
         </scene>
         <!--Results-->
         <scene sceneID="x8E-aa-djG">
@@ -391,4 +487,7 @@
         <image name="Arrow_Up" width="512" height="512"/>
         <image name="Arrow_Up_Left" width="512" height="512"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="7lX-Ha-nqu"/>
+    </inferredMetricsTieBreakers>
 </document>
